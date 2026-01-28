@@ -1,18 +1,18 @@
 (function () {
     "use strict";
 
-    // ===== Config (edit if needed) =====
+    // ===== Config =====
     const PHONE_MAIN = "+26773108995";
     const WHATSAPP_NUMBER = "26773108995";
 
     // ===== Helpers =====
     const $ = (sel, root = document) => root.querySelector(sel);
 
-    // ===== Year in footer =====
+    // ===== Footer year =====
     const year = $("#year");
     if (year) year.textContent = new Date().getFullYear();
 
-    // ===== Set active nav link based on current page =====
+    // ===== Active nav link =====
     const path = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
     const activeMap = {
         "index.html": "nav-home",
@@ -48,7 +48,15 @@
         });
     }
 
-    // ===== Contact form basic validation (client-side only) =====
+    // ===== Update call + WhatsApp links everywhere =====
+    document.querySelectorAll("[data-call]").forEach((a) => {
+        a.setAttribute("href", `tel:${PHONE_MAIN}`);
+    });
+    document.querySelectorAll("[data-wa]").forEach((a) => {
+        a.setAttribute("href", `https://wa.me/${WHATSAPP_NUMBER}`);
+    });
+
+    // ===== Contact form -> WhatsApp (optional) =====
     const form = $("#contactForm");
     const alertBox = $("#formAlert");
     if (form) {
@@ -90,14 +98,7 @@
         });
     }
 
-    // ===== Update quick-action buttons =====
-    const callLinks = document.querySelectorAll("[data-call]");
-    callLinks.forEach((a) => a.setAttribute("href", `tel:${PHONE_MAIN}`));
-
-    const waLinks = document.querySelectorAll("[data-wa]");
-    waLinks.forEach((a) => a.setAttribute("href", `https://wa.me/${WHATSAPP_NUMBER}`));
-
-    // ===== Gallery lightbox =====
+    // ===== Lightbox =====
     const lightbox = document.getElementById("lightbox");
     const lbImg = document.getElementById("lbImg");
     const lbClose = document.getElementById("lbClose");
@@ -128,5 +129,25 @@
             if (e.key === "Escape" && lightbox.classList.contains("open")) closeLb();
         });
     }
-})();
 
+    // ===== Gallery filters =====
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const galleryItems = document.querySelectorAll(".g-item");
+
+    if (filterButtons.length && galleryItems.length) {
+        filterButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const filter = btn.getAttribute("data-filter");
+
+                filterButtons.forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                galleryItems.forEach((item) => {
+                    const cat = item.getAttribute("data-cat") || "";
+                    const show = filter === "all" || cat === filter;
+                    item.classList.toggle("is-hidden", !show);
+                });
+            });
+        });
+    }
+})();

@@ -689,4 +689,36 @@ footer a:hover {
     .g-item img {
         height: 220px
     }
+}/* =========================
+   Filters (Projects)
+   ========================= */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 16px;
+}
+
+.filter-btn {
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: var(--shadow2);
+}
+
+.filter-btn:hover {
+    filter: brightness(.99)
+}
+
+.filter-btn.active {
+    background: var(--accent);
+    border-color: rgba(0, 0, 0, .06);
+    color: #111;
+}
+
+.g-item.is-hidden {
+    display: none;
 }
