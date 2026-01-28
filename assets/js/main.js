@@ -1,186 +1,132 @@
-< !doctype html >
-    <html lang="en">
-        <head>
-            <meta charset="utf-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>Projects | Lush Engineering</title>
-            <meta name="description" content="View Lush Engineering project gallery and examples of work across electrical, construction, road works, and security systems." />
-            <meta property="og:title" content="Projects | Lush Engineering" />
-            <meta property="og:description" content="View Lush Engineering project gallery and examples of work across electrical, construction, road works, and security systems." />
-            <meta property="og:type" content="website" />
-            <link rel="stylesheet" href="assets/css/styles.css" />
-        </head>
-        <body>
+(function () {
+    "use strict";
 
-            <div class="topbar">
-                <div class="container">
-                    <div class="row">
-                        <div>📍 Francistown, Botswana</div>
-                        <div style="display:flex; gap:14px; flex-wrap:wrap;">
-                            <a data-call href="tel:+26773108995">📞 +267 73108995</a>
-                            <a href="mailto:lushengineering1@gmail.com">✉️ lushengineering1@gmail.com</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    // ===== Config (edit if needed) =====
+    const PHONE_MAIN = "+26773108995";
+    const WHATSAPP_NUMBER = "26773108995";
 
-            <header>
-                <div class="container">
-                    <div class="nav">
-                        <a class="brand" href="index.html">
-                            <div class="logo">LE</div>
-                            <div>
-                                <div class="name">Lush Engineering</div>
-                                <div class="tag">Electrical & Construction Engineering</div>
-                            </div>
-                        </a>
+    // ===== Helpers =====
+    const $ = (sel, root = document) => root.querySelector(sel);
 
-                        <nav aria-label="Primary">
-                            <ul>
-                                <li><a id="nav-home" href="index.html">Home</a></li>
-                                <li><a id="nav-about" href="about.html">About</a></li>
-                                <li><a id="nav-services" href="services.html">Services</a></li>
-                                <li><a id="nav-projects" href="projects.html">Projects</a></li>
-                                <li><a id="nav-contact" href="contact.html">Contact</a></li>
-                            </ul>
-                        </nav>
+    // ===== Year in footer =====
+    const year = $("#year");
+    if (year) year.textContent = new Date().getFullYear();
 
-                        <div class="nav-cta">
-                            <a class="btn btn-primary" data-call href="tel:+26773108995">Call Us</a>
-                            <a class="btn btn-light" data-wa href="https://wa.me/26773108995" target="_blank" rel="noopener">WhatsApp</a>
-                            <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">☰</button>
-                        </div>
-                    </div>
-                </div>
+    // ===== Set active nav link based on current page =====
+    const path = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
+    const activeMap = {
+        "index.html": "nav-home",
+        "about.html": "nav-about",
+        "services.html": "nav-services",
+        "projects.html": "nav-projects",
+        "contact.html": "nav-contact",
+    };
+    const activeId = activeMap[path];
+    if (activeId) {
+        const a = document.getElementById(activeId);
+        if (a) a.classList.add("active");
 
-                <div class="mobile-nav" id="mobileNav">
-                    <a id="nav-home-m" href="index.html">Home</a>
-                    <a id="nav-about-m" href="about.html">About</a>
-                    <a id="nav-services-m" href="services.html">Services</a>
-                    <a id="nav-projects-m" href="projects.html">Projects</a>
-                    <a id="nav-contact-m" href="contact.html">Contact</a>
-                </div>
-            </header>
+        const m = document.getElementById(activeId + "-m");
+        if (m) m.classList.add("active");
+    }
 
-            <main class="hero" style="padding:54px 0 28px;">
-                <div class="container">
-                    <span class="chip">Projects & Gallery</span>
-                    <h1 style="margin-top:12px;">Work Showcase</h1>
-                    <p style="max-width:72ch;">
-                        Explore a selection of our work across electrical installations, construction and civil works, road & infrastructure, and security systems.
-                    </p>
-                    <div class="hero-actions">
-                        <a class="btn btn-primary" href="contact.html">Request a Quote</a>
-                        <a class="btn btn-ghost" href="services.html">View Services</a>
-                    </div>
-                </div>
-            </main>
+    // ===== Mobile menu toggle =====
+    const menuBtn = $("#menuBtn");
+    const mobileNav = $("#mobileNav");
+    if (menuBtn && mobileNav) {
+        menuBtn.addEventListener("click", () => {
+            const isOpen = mobileNav.classList.toggle("open");
+            menuBtn.setAttribute("aria-expanded", String(isOpen));
+        });
 
-            <section>
-                <div class="container">
-                    <div class="section-title">
-                        <div>
-                            <h2>Gallery</h2>
-                            <p>Click any image to view. Add your project photos in <b>assets/img/projects/</b>.</p>
-                        </div>
-                    </div>
+        mobileNav.addEventListener("click", (e) => {
+            const target = e.target;
+            if (target && target.tagName === "A") {
+                mobileNav.classList.remove("open");
+                menuBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+    }
 
-                    <div class="gallery">
-                        <a class="g-item" href="assets/img/projects/p1.jpg">
-                            <img src="assets/img/projects/p1.jpg" alt="Electrical installation project" loading="lazy">
-                                <div class="g-cap">Electrical Installations</div>
-                        </a>
+    // ===== Contact form basic validation (client-side only) =====
+    const form = $("#contactForm");
+    const alertBox = $("#formAlert");
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
 
-                        <a class="g-item" href="assets/img/projects/p2.jpg">
-                            <img src="assets/img/projects/p2.jpg" alt="Construction and civil works project" loading="lazy">
-                                <div class="g-cap">Construction & Civil Works</div>
-                        </a>
+            const name = $("#name")?.value.trim();
+            const email = $("#email")?.value.trim();
+            const phone = $("#phone")?.value.trim();
+            const message = $("#message")?.value.trim();
 
-                        <a class="g-item" href="assets/img/projects/p3.jpg">
-                            <img src="assets/img/projects/p3.jpg" alt="Road works project" loading="lazy">
-                                <div class="g-cap">Road & Infrastructure</div>
-                        </a>
+            const emailOk = !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            const requiredOk = !!name && !!message;
 
-                        <a class="g-item" href="assets/img/projects/p4.jpg">
-                            <img src="assets/img/projects/p4.jpg" alt="Security systems installation project" loading="lazy">
-                                <div class="g-cap">Security Systems</div>
-                        </a>
+            if (!requiredOk || !emailOk) {
+                if (alertBox) {
+                    alertBox.classList.add("show");
+                    alertBox.textContent = !requiredOk
+                        ? "Please enter your name and message."
+                        : "Please enter a valid email address.";
+                }
+                return;
+            }
 
-                        <a class="g-item" href="assets/img/projects/p5.jpg">
-                            <img src="assets/img/projects/p5.jpg" alt="Fabrication work project" loading="lazy">
-                                <div class="g-cap">Fabrication & Steel Works</div>
-                        </a>
+            const text =
+                `Hello Lush Engineering,%0A%0A` +
+                `Name: ${encodeURIComponent(name)}%0A` +
+                `Phone: ${encodeURIComponent(phone || "N/A")}%0A` +
+                `Email: ${encodeURIComponent(email || "N/A")}%0A%0A` +
+                `Message:%0A${encodeURIComponent(message)}`;
 
-                        <a class="g-item" href="assets/img/projects/p6.jpg">
-                            <img src="assets/img/projects/p6.jpg" alt="Mechanical works project" loading="lazy">
-                                <div class="g-cap">Mechanical Works</div>
-                        </a>
-                    </div>
-                </div>
-            </section>
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
 
-            <section class="cta">
-                <div class="container">
-                    <div class="cta-box">
-                        <div>
-                            <h2>Have a Project in Mind?</h2>
-                            <p>Call or WhatsApp and we’ll advise and quote based on your scope.</p>
-                        </div>
-                        <div class="hero-actions" style="margin:0;">
-                            <a class="btn btn-primary" data-call href="tel:+26773108995">📞 Call Now</a>
-                            <a class="btn btn-light" data-wa href="https://wa.me/26773108995" target="_blank" rel="noopener">💬 WhatsApp</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            form.reset();
+            if (alertBox) {
+                alertBox.classList.add("show");
+                alertBox.textContent = "Thanks! Opening WhatsApp to send your request.";
+            }
+        });
+    }
 
-            <!-- Lightbox -->
-            <div class="lightbox" id="lightbox" aria-hidden="true">
-                <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
-                <img id="lbImg" alt="Project image preview">
-            </div>
+    // ===== Update quick-action buttons =====
+    const callLinks = document.querySelectorAll("[data-call]");
+    callLinks.forEach((a) => a.setAttribute("href", `tel:${PHONE_MAIN}`));
 
-            <footer>
-                <div class="container">
-                    <div class="footer-grid">
-                        <div>
-                            <div style="display:flex; gap:10px; align-items:center;">
-                                <div class="logo" aria-hidden="true">LE</div>
-                                <div>
-                                    <div style="font-weight:900;">Lush Engineering</div>
-                                    <div style="font-size:13px; opacity:.9;">Electrical & Construction Engineering</div>
-                                </div>
-                            </div>
-                            <p style="margin:12px 0 0; max-width:60ch;">
-                                Professional engineering services delivered with quality workmanship, safety compliance, and reliable timelines.
-                            </p>
-                            <div class="small">© <span id="year"></span> Lush Engineering Proprietary Limited. All rights reserved.</div>
-                        </div>
+    const waLinks = document.querySelectorAll("[data-wa]");
+    waLinks.forEach((a) => a.setAttribute("href", `https://wa.me/${WHATSAPP_NUMBER}`));
 
-                        <div>
-                            <h4 style="margin:0 0 10px;">Quick Links</h4>
-                            <p style="margin:0;"><a href="index.html">Home</a></p>
-                            <p style="margin:8px 0 0;"><a href="about.html">About</a></p>
-                            <p style="margin:8px 0 0;"><a href="services.html">Services</a></p>
-                            <p style="margin:8px 0 0;"><a href="contact.html">Contact</a></p>
-                        </div>
+    // ===== Gallery lightbox =====
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lbImg");
+    const lbClose = document.getElementById("lbClose");
 
-                        <div>
-                            <h4 style="margin:0 0 10px;">Contact</h4>
-                            <p style="margin:0;">📍 Francistown, Botswana</p>
-                            <p style="margin:8px 0 0;"><a data-call href="tel:+26773108995">📞 +267 73108995</a></p>
-                            <p style="margin:8px 0 0;"><a href="mailto:lushengineering1@gmail.com">✉️ lushengineering1@gmail.com</a></p>
-                            <p style="margin:8px 0 0;"><a data-wa href="https://wa.me/26773108995" target="_blank" rel="noopener">💬 WhatsApp</a></p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+    if (lightbox && lbImg && lbClose) {
+        document.addEventListener("click", (e) => {
+            const link = e.target.closest && e.target.closest(".g-item");
+            if (!link) return;
 
-            <div class="float" aria-label="Quick actions">
-                <a class="fab whatsapp" data-wa href="https://wa.me/26773108995" target="_blank" rel="noopener" aria-label="WhatsApp"><span>💬</span></a>
-                <a class="fab call" data-call href="tel:+26773108995" aria-label="Call"><span>📞</span></a>
-            </div>
+            e.preventDefault();
+            lbImg.src = link.getAttribute("href");
+            lightbox.classList.add("open");
+            lightbox.setAttribute("aria-hidden", "false");
+        });
 
-            <script src="assets/js/main.js"></script>
-        </body>
-    </html>
+        const closeLb = () => {
+            lightbox.classList.remove("open");
+            lightbox.setAttribute("aria-hidden", "true");
+            lbImg.src = "";
+        };
+
+        lbClose.addEventListener("click", closeLb);
+        lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox) closeLb();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && lightbox.classList.contains("open")) closeLb();
+        });
+    }
+})();
+
