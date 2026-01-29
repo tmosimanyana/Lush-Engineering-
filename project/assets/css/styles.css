@@ -532,6 +532,55 @@ footer a:hover {
     font-size: 18px;
 }
 
+/* ===== FORM STYLES ===== */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color .2s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.input::placeholder {
+    color: var(--muted);
+}
+
+textarea.input {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.alert {
+    display: none;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(247, 198, 0, .18);
+    border: 1px solid rgba(247, 198, 0, .25);
+    color: #111;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.alert.show {
+    display: block;
+}
+
 /* ===== Gallery (Projects) ===== */
 .gallery {
     display: grid;
@@ -546,6 +595,7 @@ footer a:hover {
     border: 1px solid var(--line);
     background: #fff;
     box-shadow: var(--shadow2);
+    cursor: pointer;
 }
 
 .g-item img {
@@ -591,6 +641,7 @@ footer a:hover {
     font-weight: 900;
     cursor: pointer;
     box-shadow: var(--shadow2);
+    transition: .2s ease;
 }
 
 .filter-btn:hover {
